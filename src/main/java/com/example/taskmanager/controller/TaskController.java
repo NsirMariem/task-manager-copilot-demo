@@ -2,15 +2,14 @@ package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.dto.TaskResponseDTO;
+import com.example.taskmanager.enums.TaskPriority;
 import com.example.taskmanager.enums.TaskStatus;
 import com.example.taskmanager.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +52,15 @@ public class TaskController {
     @GetMapping("/status/{status}")
     public ResponseEntity<List<TaskResponseDTO>> findByStatus(@PathVariable TaskStatus status) {
         return ResponseEntity.ok(taskService.findByStatus(status));
+    }
+
+    @Operation(summary = "Retrieve tasks by priority")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tasks filtered by priority")
+    })
+    @GetMapping("/priority/{priority}")
+    public ResponseEntity<List<TaskResponseDTO>> findByPriority(@PathVariable TaskPriority priority) {
+        return ResponseEntity.ok(taskService.findByPriority(priority));
     }
 
     @Operation(summary = "Create a new task")

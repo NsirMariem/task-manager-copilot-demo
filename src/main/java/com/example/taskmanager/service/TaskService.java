@@ -3,6 +3,7 @@ package com.example.taskmanager.service;
 import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.dto.TaskResponseDTO;
 import com.example.taskmanager.entity.Task;
+import com.example.taskmanager.enums.TaskPriority;
 import com.example.taskmanager.enums.TaskStatus;
 import com.example.taskmanager.exception.TaskNotFoundException;
 import com.example.taskmanager.repository.TaskRepository;
@@ -36,6 +37,12 @@ public class TaskService {
 
     public List<TaskResponseDTO> findByStatus(TaskStatus status) {
         return taskRepository.findByStatus(status).stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TaskResponseDTO> findByPriority(TaskPriority priority) {
+        return taskRepository.findByPriority(priority).stream()
                 .map(this::toResponseDto)
                 .collect(Collectors.toList());
     }
