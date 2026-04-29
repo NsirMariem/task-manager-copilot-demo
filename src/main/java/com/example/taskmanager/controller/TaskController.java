@@ -2,6 +2,7 @@ package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.dto.TaskResponseDTO;
+import com.example.taskmanager.dto.UpdateStatusRequestDTO;
 import com.example.taskmanager.enums.TaskPriority;
 import com.example.taskmanager.enums.TaskStatus;
 import com.example.taskmanager.service.TaskService;
@@ -92,8 +93,9 @@ public class TaskController {
             @ApiResponse(responseCode = "404", description = "Task not found", content = @Content)
     })
     @PatchMapping("/{id}/status")
-    public ResponseEntity<TaskResponseDTO> updateStatus(@PathVariable Long id, @RequestBody TaskStatus status) {
-        return ResponseEntity.ok(taskService.updateStatus(id, status));
+    public ResponseEntity<TaskResponseDTO> updateStatus(@PathVariable Long id,
+                                                        @Valid @RequestBody UpdateStatusRequestDTO request) {
+        return ResponseEntity.ok(taskService.updateStatus(id, request.getStatus()));
     }
 
     @Operation(summary = "Delete a task")
