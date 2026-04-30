@@ -31,10 +31,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    // @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
             HttpHeaders headers,
-            HttpStatus status,
+            org.springframework.http.HttpStatusCode status,
             WebRequest request) {
         Map<String, String> validationErrors = new HashMap<>();
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
@@ -49,18 +50,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-            WebRequest request) {
-        ErrorResponse error = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                "Malformed JSON request",
-                ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage(),
-                request.getDescription(false));
-        return ResponseEntity.badRequest().body(error);
-    }
+    // @ExceptionHandler(HttpMessageNotReadableException.class)
+    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    // public ResponseEntity<ErrorResponse>
+    // handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+    // WebRequest request) {
+    // ErrorResponse error = new ErrorResponse(
+    // LocalDateTime.now(),
+    // HttpStatus.BAD_REQUEST.value(),
+    // "Malformed JSON request",
+    // ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() :
+    // ex.getMessage(),
+    // request.getDescription(false));
+    // return ResponseEntity.badRequest().body(error);
+    // }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
