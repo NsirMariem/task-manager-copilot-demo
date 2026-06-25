@@ -2,6 +2,7 @@ package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.dto.TaskResponseDTO;
+import com.example.taskmanager.dto.UpdateStatusRequestDTO;
 import com.example.taskmanager.enums.TaskPriority;
 import com.example.taskmanager.enums.TaskStatus;
 import com.example.taskmanager.service.TaskService;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @Operation(summary = "Retrieve all tasks")
+    @Operation(summary = "Retrieve all tasks", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of tasks returned")
     })
@@ -35,7 +37,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findAll());
     }
 
-    @Operation(summary = "Retrieve a task by ID")
+    @Operation(summary = "Retrieve a task by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task found"),
             @ApiResponse(responseCode = "404", description = "Task not found", content = @Content)
@@ -45,7 +47,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findById(id));
     }
 
-    @Operation(summary = "Retrieve tasks by status")
+    @Operation(summary = "Retrieve tasks by status", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tasks filtered by status")
     })
@@ -54,7 +56,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findByStatus(status));
     }
 
-    @Operation(summary = "Retrieve tasks by priority")
+    @Operation(summary = "Retrieve tasks by priority", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tasks filtered by priority")
     })
@@ -63,7 +65,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findByPriority(priority));
     }
 
-    @Operation(summary = "Create a new task")
+    @Operation(summary = "Create a new task", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Task created"),
             @ApiResponse(responseCode = "400", description = "Validation error", content = @Content)
@@ -74,7 +76,7 @@ public class TaskController {
         return ResponseEntity.created(URI.create("/api/tasks/" + created.getId())).body(created);
     }
 
-    @Operation(summary = "Update an existing task")
+    @Operation(summary = "Update an existing task", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task updated"),
             @ApiResponse(responseCode = "400", description = "Validation error", content = @Content),
@@ -85,18 +87,19 @@ public class TaskController {
         return ResponseEntity.ok(taskService.update(id, request));
     }
 
-    @Operation(summary = "Update task status")
+    @Operation(summary = "Update task status", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Task status updated"),
             @ApiResponse(responseCode = "400", description = "Validation error", content = @Content),
             @ApiResponse(responseCode = "404", description = "Task not found", content = @Content)
     })
     @PatchMapping("/{id}/status")
-    public ResponseEntity<TaskResponseDTO> updateStatus(@PathVariable Long id, @RequestBody TaskStatus status) {
-        return ResponseEntity.ok(taskService.updateStatus(id, status));
+    public ResponseEntity<TaskResponseDTO> updateStatus(@PathVariable Long id,
+            @Valid @RequestBody UpdateStatusRequestDTO request) {
+        return ResponseEntity.ok(taskService.updateStatus(id, request.getStatus()));
     }
 
-    @Operation(summary = "Delete a task")
+    @Operation(summary = "Delete a task", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Task deleted"),
             @ApiResponse(responseCode = "404", description = "Task not found", content = @Content)
