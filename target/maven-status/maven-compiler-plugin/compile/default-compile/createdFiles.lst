@@ -10,6 +10,7 @@ com\example\taskmanager\entity\User.class
 com\example\taskmanager\enums\TaskStatus.class
 com\example\taskmanager\dto\UpdateStatusRequestDTO.class
 com\example\taskmanager\security\SecurityConfig.class
+com\example\taskmanager\security\OpenApiConfig.class
 com\example\taskmanager\exception\TaskNotFoundException.class
 com\example\taskmanager\dto\AuthRequest.class
 com\example\taskmanager\dto\TaskResponseDTO$TaskResponseDTOBuilder.class

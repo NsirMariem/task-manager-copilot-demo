@@ -1,6 +1,7 @@
 C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\dto\TaskResponseDTO.java
 C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\entity\Task.java
 C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\exception\GlobalExceptionHandler.java
+C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\security\OpenApiConfig.java
 C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\exception\TaskNotFoundException.java
 C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\security\JwtUtil.java
 C:\Users\Maryam.Nsir\Desktop\naah\devProjects\task-manager-copilot-demo\src\main\java\com\example\taskmanager\enums\TaskStatus.java
