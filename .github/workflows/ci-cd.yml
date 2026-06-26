@@ -45,13 +45,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Convert repository owner to lowercase
+        id: owner
+        run: echo "owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: false
-          tags: ghcr.io/${{ github.repository_owner }}/task-manager-backend:latest
+          tags: ghcr.io/${{ steps.owner.outputs.owner }}/task-manager-backend:latest
 
   push-to-registry:
     name: Push backend image to GitHub Container Registry
@@ -70,11 +74,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Convert repository owner to lowercase
+        id: owner
+        run: echo "owner=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
       - name: Create image metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository_owner }}/task-manager-backend
+          images: ghcr.io/${{ steps.owner.outputs.owner }}/task-manager-backend
           tags: |
             latest
             ${{ github.sha }}
